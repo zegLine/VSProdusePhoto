@@ -9,6 +9,9 @@ from zipfile import ZipFile
 parser = argparse.ArgumentParser(description="Automatizare pentru export fotografii Canva")
 parser.add_argument('--source', default="C:/vsphotos", help="Path-ul catre directorul cu fisierele .zip / .rar (necesar)")
 parser.add_argument('--dest', default="proccessed", help="Numele folderului destinatie (optional)")
+parser.add_argument('--use-appdata-temp', dest="use_appdata", action="store_true")
+parser.add_argument('--use-local-temp', dest="use_appdata", action="store_false")
+parser.set_defaults(use_appdata=True)
 args = parser.parse_args()
 
 #Source path
@@ -19,8 +22,12 @@ DESTINATION_FOLDER_NAME = args.dest
 DESTINATION_FOLDER_PATH = SOURCE_FOLDER_PATH + '/' + DESTINATION_FOLDER_NAME
 
 def proccess(dir_path):
-    #Creates appdata dir if it doesen't exist
-    tempdir = os.path.join(SOURCE_FOLDER_PATH, 'temp')
+    #Creates temp dir if it doesen't exist
+    if args.use_appdata:
+        tempdir = os.path.join(os.getenv("LOCALAPPDATA"), "VSProdusePhoto")
+    else:
+        tempdir = os.path.join(SOURCE_FOLDER_PATH, 'temp')
+
     print(tempdir + '\n')
     if not os.path.exists(tempdir):
         os.mkdir(tempdir)
