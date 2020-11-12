@@ -28,9 +28,12 @@ def proccess(dir_path):
     else:
         tempdir = os.path.join(SOURCE_FOLDER_PATH, 'temp')
 
-    print(tempdir + '\n')
+    print(f'Working with temp dir {tempdir} \n')
     if not os.path.exists(tempdir):
         os.mkdir(tempdir)
+
+    if not os.path.exists(dir_path):
+        os.mkdir(dir_path)
 
     #Change dir to SOURCE_PATH_FOLDER
     os.chdir(dir_path)
